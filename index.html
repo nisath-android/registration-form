@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Apollo Computer Center — Full Stack Courses & Registration</title>
+
+<meta name="description" content="Description">
+<meta name="keywords" content="Keyword1, Keyword2">
+<style>
+  :root{
+    --primary:#d3220b;
+    --muted:#6b7280;
+    --card:#ffffff;
+    --bg:#f3f6fb;
+    --success:#27ae60;
+    --accent:#ff7a00;
+    --danger:#e74c3c;
+    --max-width:1100px;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:Inter, system-ui, Arial, sans-serif;
+    background:var(--bg);
+    color:#0f1724;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+  }
+
+  header{
+    background:linear-gradient(90deg,var(--primary),#1557b8);
+    color:white;
+    padding:20px 16px;
+    text-align:center;
+  }
+  header h1{margin:0;font-size:1.4rem}
+  header p{margin:6px 0 0;opacity:.95}
+
+  .container{
+    width:95%;
+    max-width:var(--max-width);
+    margin:22px auto;
+  }
+
+  .controls{
+    display:flex;
+    gap:12px;
+    justify-content:flex-end;
+    margin-bottom:10px;
+  }
+  .btn{
+    background:var(--primary);
+    color:white;
+    border:none;
+    padding:8px 12px;
+    border-radius:6px;
+    cursor:pointer;
+    font-weight:600;
+  }
+  .btn.ghost{
+    background:transparent;
+    color:var(--primary);
+    border:1px solid rgba(11,99,211,.12);
+  }
+
+  table{
+    width:100%;
+    border-collapse:collapse;
+    background:var(--card);
+    border-radius:8px;
+    overflow:hidden;
+    box-shadow:0 6px 18px rgba(8,35,76,0.06);
+  }
+  thead th{
+    text-align:left;
+    background:linear-gradient(180deg,#064aa6,#0b63d3);
+    color:white;
+    padding:14px 12px;
+    font-weight:600;
+    font-size:0.95rem;
+  }
+  tbody td{
+    padding:12px;
+    border-top:1px solid #eef2f6;
+    vertical-align:middle;
+    font-size:0.95rem;
+  }
+  .fee-low{color:var(--success);font-weight:700}
+  .fee-mid{color:var(--accent);font-weight:700}
+  .fee-high{color:var(--danger);font-weight:700}
+   
+
+
+  /* roadmap cards */
+  .roadmaps{margin:20px 0; display:grid; grid-template-columns:1fr; gap:12px;}
+  details{background:var(--card); padding:12px; border-radius:8px; box-shadow:0 4px 10px rgba(10,20,40,0.04); border:1px solid #eef3fb;}
+  details summary{font-weight:700; cursor:pointer; padding:6px 2px;}
+  .weeks{color:var(--muted); margin-top:8px; line-height:1.5rem;}
+
+  /* form */
+  form{background:var(--card); padding:14px; border-radius:8px; box-shadow:0 6px 18px rgba(8,35,76,0.04); margin:18px 0;}
+  label{display:block;margin:8px 0 6px;color:var(--muted);font-size:0.9rem}
+  input[type="text"], input[type="email"], select, textarea{
+    width:100%;
+    padding:10px;
+    border-radius:6px;
+    border:1px solid #e6eef9;
+    font-size:0.95rem;
+    background:white;
+  }
+  textarea{min-height:100px; resize:vertical;}
+
+  .form-row{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+  .form-actions{display:flex; gap:10px; justify-content:flex-end; margin-top:12px}
+
+  /* responsive */
+  @media (max-width:800px){
+    .controls{justify-content:center}
+    .form-row{grid-template-columns:1fr}
+    thead th:nth-child(3), thead th:nth-child(4){display:none}
+    tbody td:nth-child(3), tbody td:nth-child(4){display:none}
+  }
+
+  footer{padding:14px;text-align:center;color:#fff;background:linear-gradient(90deg,#0b63d3,#104fb3);margin-top:20px;border-radius:8px;max-width:var(--max-width);margin-left:auto;margin-right:auto}
+  .note{font-size:0.9rem;color:var(--muted);margin-top:8px}
+
+  /* Progress container */
+  #progressContainer {
+    display: none;
+    margin-top: 15px;
+    width: 100%;
+    background-color: #e5e7eb;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  }
+
+  /* Progress bar itself */
+  #progressBar {
+    height: 20px;
+    width: 0%;
+    background: linear-gradient(90deg, #4f46e5, #3b82f6);
+    transition: width 0.3s ease-in-out;
+  }
+
+  /* Text below bar */
+  #progressText {
+    margin-top: 5px;
+    font-size: 14px;
+    color: #374151;
+    font-weight: 500;
+    text-align: center;
+  }
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>Apollo Computer Center</h1>
+  <p>Full Stack Development — Courses, Roadmaps & Student Registration</p>
+</header>
+
+<div class="container">
+  <div class="controls">
+    <button class="btn" onclick="window.print()">🖨 Print / Save as PDF</button>
+    <button class="btn ghost" onclick="scrollToForm()">Enroll Now</button>
+  </div>
+
+  <!-- Courses table -->
+  <table aria-label="Courses">
+    <thead>
+      <tr>
+        <th>Course</th>
+        <th>Duration (Weeks)</th>
+        <th>Fees (₹)</th>
+        <th>Estimated Salary Range (per year)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Java Full Stack (Java 17 → 24, Spring Boot)</td>
+        <td>24</td>
+        <td class="fee-high">₹25,000</td>
+        <td>₹3,50,000 - ₹12,00,000</td>
+      </tr>
+      <tr>
+        <td>Kotlin Full Stack (Spring Boot)</td>
+        <td>20</td>
+        <td class="fee-high">₹22,000</td>
+        <td>₹3,00,000 - ₹10,00,000</td>
+      </tr>
+      <tr>
+        <td>MERN Stack Development</td>
+        <td>20</td>
+        <td class="fee-mid">₹20,000</td>
+        <td>₹3,00,000 - ₹9,00,000</td>
+      </tr>
+      <tr>
+        <td>Python Full Stack (Django)</td>
+        <td>18</td>
+        <td class="fee-mid">₹18,000</td>
+        <td>₹2,80,000 - ₹8,50,000</td>
+      </tr>
+      <tr>
+        <td>C Full Stack</td>
+        <td>16</td>
+        <td class="fee-low">₹15,000</td>
+        <td>₹2,50,000 - ₹7,00,000</td>
+      </tr>
+      <tr>
+        <td>C++ Full Stack</td>
+        <td>16</td>
+        <td class="fee-low">₹16,000</td>
+        <td>₹2,70,000 - ₹7,50,000</td>
+      </tr>
+      <tr>
+        <td>Android Full Stack (NDK, Jetpack Compose, Modular)</td>
+        <td>24</td>
+        <td class="fee-high">₹26,000</td>
+        <td>₹3,20,000 - ₹11,00,000</td>
+      </tr>
+      <tr>
+        <td>SQL Complete Package</td>
+        <td>12</td>
+        <td class="fee-low">₹12,000</td>
+        <td>₹2,00,000 - ₹6,00,000</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p class="note">Schedule assumption: weekday part-time batches (Mon–Fri). Weeks shown are estimated for learners spending ~3–4 hours/day on weekdays.</p>
+
+  <!-- Roadmaps -->
+  <section class="roadmaps" aria-label="Course roadmaps">
+    <details open>
+      <summary>Java Full Stack — 24 Weeks (Java 17 → 24, Spring Boot)</summary>
+      <div class="weeks">
+        Weeks 1–4: Java Core & OOP (classes, objects, inheritance, interfaces, exceptions)<br>
+        Weeks 5–8: Java Advanced (Generics, Streams API, Lambdas, Concurrency, I/O)<br>
+        Weeks 9–12: JDBC, JPA, Hibernate basics, Database design<br>
+        Weeks 13–16: Spring Boot Core (controllers, services, repositories), REST API design<br>
+        Weeks 17–18: Security (Spring Security, JWT), Testing (JUnit, Mockito)<br>
+        Weeks 19–20: Frontend basics (HTML, CSS, JS) + React basics for integration<br>
+        Weeks 21–22: Fullstack Integration (connect React with Spring APIs), session & auth flows<br>
+        Weeks 23–24: Project: Capstone (e-commerce or management app), Dockerize and deploy
+      </div>
+    </details>
+
+    <details>
+      <summary>Kotlin Full Stack — 20 Weeks (Spring Boot with Kotlin)</summary>
+      <div class="weeks">
+        Weeks 1–3: Kotlin Basics (syntax, null-safety, coroutines intro)<br>
+        Weeks 4–6: Kotlin Advanced (coroutines, flows, DSLs, extension functions)<br>
+        Weeks 7–10: Spring Boot with Kotlin (Ktor or Spring Boot Kotlin starter), REST APIs<br>
+        Weeks 11–12: Database (JPA with Kotlin, Exposed ORM), testing<br>
+        Weeks 13–14: Authentication & Security (JWT), async patterns with coroutines<br>
+        Weeks 15–16: Frontend basics + React (TypeScript optional) integration<br>
+        Weeks 17–18: Microservices basics & building modular services<br>
+        Weeks 19–20: Capstone project, containerization and deployment
+      </div>
+    </details>
+
+    <details>
+      <summary>MERN Stack — 20 Weeks (MongoDB, Express, React, Node)</summary>
+      <div class="weeks">
+        Weeks 1–2: HTML, CSS, JavaScript fundamentals & ES6 features<br>
+        Weeks 3–6: React (components, hooks, state, context, routing)<br>
+        Weeks 7–9: Node.js & Express (server, middleware, REST APIs)<br>
+        Weeks 10–11: MongoDB basics & Mongoose (schema design, queries)<br>
+        Weeks 12–13: Authentication & Authorization (JWT, sessions), file uploads<br>
+        Weeks 14–15: State management & advanced React patterns; testing (Jest)<br>
+        Weeks 16–17: Deployment (Vercel for frontend, Render/Heroku for backend), CI basics<br>
+        Weeks 18–20: Capstone project (fullstack SaaS or marketplace)
+      </div>
+    </details>
+
+    <details>
+      <summary>Python Full Stack (Django) — 18 Weeks</summary>
+      <div class="weeks">
+        Weeks 1–3: Python fundamentals (data structures, OOP, virtualenv)<br>
+        Weeks 4–6: Django basics (models, views, templates, admin)<br>
+        Weeks 7–9: Django REST Framework (serializers, viewsets, routers)<br>
+        Weeks 10–11: Authentication, permissions, token/JWT flows<br>
+        Weeks 12–13: Frontend integration (HTML/CSS/JS) and React/Vue optional<br>
+        Weeks 14–15: Database optimization, migrations, caching (Redis)<br>
+        Weeks 16–18: Deployment (Gunicorn + Nginx), Dockerize, project & testing
+      </div>
+    </details>
+
+    <details>
+      <summary>C Full Stack — 16 Weeks</summary>
+      <div class="weeks">
+        Weeks 1–4: C basics (syntax, pointers, memory management, file I/O)<br>
+        Weeks 5–7: Data structures & algorithms in C (linked lists, trees, sorting)<br>
+        Weeks 8–10: Network programming basics (sockets) & simple server implementation<br>
+        Weeks 11–12: Integrating with a lightweight web framework or CGI approach (building APIs in C) / or using C as backend component<br>
+        Weeks 13–14: Database connectivity (libpq / MySQL C API) and SQL basics<br>
+        Weeks 15–16: Project: small web service or microservice component + deployment
+      </div>
+    </details>
+
+    <details>
+      <summary>C++ Full Stack — 16 Weeks</summary>
+      <div class="weeks">
+        Weeks 1–3: C++ core & modern C++ features (STL, RAII, smart pointers)<br>
+        Weeks 4–6: OOP & advanced C++ (templates, move semantics, concurrency basics)<br>
+        Weeks 7–9: Backend options in C++ (CppRESTSDK, Pistache, CppCMS) and building REST APIs<br>
+        Weeks 10–11: Database access (ODBC, libpq) and ORM-like approaches<br>
+        Weeks 12–13: Integrating with frontend (serving JSON APIs) & testing frameworks<br>
+        Weeks 14–16: Project: performance-focused service + deployment and monitoring
+      </div>
+    </details>
+
+    <details>
+      <summary>Android Full Stack — 24 Weeks (Kotlin, Jetpack Compose, NDK & Modularization)</summary>
+      <div class="weeks">
+        Weeks 1–3: Kotlin for Android, Android fundamentals<br>
+        Weeks 4–7: Jetpack Compose UI, layouts, state, navigation<br>
+        Weeks 8–10: Android Architecture (ViewModel, LiveData / StateFlow), Room DB<br>
+        Weeks 11–13: Networking (Retrofit), coroutines, offline support<br>
+        Weeks 14–16: Modularization (feature modules), clean architecture patterns<br>
+        Weeks 17–18: NDK basics (C/C++ interop), JNI, native modules<br>
+        Weeks 19–20: Integrating backend (REST / GraphQL), auth flows<br>
+        Weeks 21–24: Testing, Google Play publish flow, CI/CD, capstone app
+      </div>
+    </details>
+
+    <details>
+      <summary>SQL Complete Package — 12 Weeks</summary>
+      <div class="weeks">
+        Weeks 1–2: SQL basics (SELECT, INSERT, UPDATE, DELETE)<br>
+        Weeks 3–4: Joins, group by, aggregate functions, subqueries<br>
+        Weeks 5–6: Indexes, explain plan, query optimization basics<br>
+        Weeks 7–8: Stored procedures, triggers, functions, views<br>
+        Weeks 9–10: Advanced topics (partitioning, replication basics, backups)<br>
+        Weeks 11–12: Hands-on with MySQL/Postgres/SQL Server, security & projects
+      </div>
+    </details>
+  </section>
+
+
+<!-- Progress UI -->
+<div id="progressContainer">
+  <div id="progressBar"></div>
+</div>
+<div id="progressText"></div>
+
+
+  <!-- Registration form -->
+  <form id="registrationForm" autocomplete="on" aria-label="Student registration form">
+    <h2>Student Registration</h2>
+
+    <div class="form-row">
+      <div>
+        <label for="name">Full name</label>
+        <input id="name" name="name" type="text" placeholder="Student name" required />
+      </div>
+      <div>
+        <label for="phone">Phone</label>
+        <input id="phone" name="phone" type="text" placeholder="Mobile number" required />
+      </div>
+    </div>
+
+    <div class="form-row" style="margin-top:6px">
+      <div>
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" placeholder="name@example.com" required />
+      </div>
+      <div>
+        <label for="course">Select Course</label>
+        <select id="course" name="course" required>
+          <option value="">-- Select a course --</option>
+          <option>Java Full Stack</option>
+          <option>Kotlin Full Stack</option>
+          <option>MERN Stack</option>
+          <option>Python Full Stack (Django)</option>
+          <option>C Full Stack</option>
+          <option>C++ Full Stack</option>
+          <option>Android Full Stack</option>
+          <option>SQL Complete Package</option>
+        </select>
+      </div>
+    </div>
+
+    <label for="message">Message (optional)</label>
+    <textarea id="message" name="message" placeholder="Any questions or notes"></textarea>
+
+    <div class="form-actions">
+      <button type="reset" class="btn ghost">Reset</button>
+      <button type="submit" class="btn">Submit Registration</button>
+    </div>
+<div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+    <div class="progress-text" id="progressText"></div>
+  </div>
+    <p class="note">We will email/call you to confirm the batch and fee details. You can host this page publicly or use locally; connection to Google Sheets requires the Web App URL (see instructions below).</p>
+  </form>
+
+  <footer>
+    © 2025 Apollo Computer Center • Contact: +91 7845470737 • Chennai
+  </footer>
+</div>
+
+<script>
+  const scriptURL = "https://script.google.com/macros/s/AKfycbytv3SZ9hufgGBU2X8hH4qPJtStEYafTKdwHhYG6DeFp2S2xRkreFHuayjJ7POcTJUA2w/exec";
+  const TOKEN = "apollo-reg";
+  const form = document.getElementById("registrationForm");
+  const progressContainer = document.getElementById("progressContainer");
+  const progressBar = document.getElementById("progressBar");
+  const progressText = document.getElementById("progressText");
+
+  form.addEventListener("submit", (evt) => {
+    evt.preventDefault();
+
+    // Show progress bar
+    progressContainer.style.display = "block";
+    progressBar.style.width = "0%";
+    progressText.textContent = "Submitting your registration...";
+
+    form.querySelector("button").disabled = true;
+
+    let width = 0;
+    const interval = setInterval(() => {
+      if (width >= 90) {
+        clearInterval(interval);
+      } else {
+        width += 10;
+        progressBar.style.width = width + "%";
+      }
+    }, 300);
+
+    const data = {
+      token: TOKEN,
+      name: form.name.value.trim(),
+      email: form.email.value.trim(),
+      phone: form.phone.value.trim(),
+      course: form.course.value.trim()
+    };
+
+    if (!data.name || !data.email || !data.phone || !data.course) {
+      alert("Please fill all required fields.");
+      return;
+    }
+
+    const formData = new URLSearchParams(data);
+
+    fetch(scriptURL, {
+      method: "POST",
+      body: formData
+    })
+    .then((res) => res.json())
+    .then((result) => {
+      if (result.success) {
+        progressBar.style.width = "100%";
+        progressText.textContent = "✅ Registration successful!";
+        setTimeout(() => {
+          form.reset();
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }, 1000);
+      } else {
+        progressText.textContent = "❌ " + result.message;
+      }
+    })
+    .catch(() => {
+      progressText.textContent = "❌ Something went wrong.";
+    })
+    .finally(() => {
+      setTimeout(() => {
+        progressContainer.style.display = "none";
+        progressBar.style.width = "0%";
+        progressText.textContent = "";
+        form.querySelector("button").disabled = false;
+      }, 2000);
+    });
+  });
+</script>
+
+
+
+</body>
+</html>
+
+
+
+
