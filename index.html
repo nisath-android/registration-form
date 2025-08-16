@@ -391,6 +391,14 @@
       <button type="reset" class="btn ghost">Reset</button>
       <button type="submit" class="btn">Submit Registration</button>
     </div>
+    <div class="container">
+  <h2>🔍 Search Student</h2>
+  <input type="text" id="searchName" placeholder="Enter student name">
+  <button class="btn" onclick="searchStudent()">Search</button>
+
+  <div id="studentResult" style="margin-top:15px; background:#fff; padding:12px; border-radius:8px;"></div>
+</div>
+
 <div class="progress-container">
     <div class="progress-bar" id="progressBar"></div>
     <div class="progress-text" id="progressText"></div>
@@ -404,7 +412,7 @@
 </div>
 
 <script>
-  const scriptURL = "https://script.google.com/macros/s/AKfycbytv3SZ9hufgGBU2X8hH4qPJtStEYafTKdwHhYG6DeFp2S2xRkreFHuayjJ7POcTJUA2w/exec";
+  const scriptURL = "https://script.google.com/macros/s/AKfycbwR7HKlOfUg4Jiz8SbItH6s6cD_U2eILoGJVBrFuQOZ56FSCHFePAJRprXqRFzxd2MZNg/exec";
   const TOKEN = "apollo-reg";
   const form = document.getElementById("registrationForm");
   const progressContainer = document.getElementById("progressContainer");
@@ -475,13 +483,41 @@
       }, 2000);
     });
   });
+
+   function searchStudent() {
+    const name = document.getElementById("searchName").value.trim();
+    if (!name) {
+      alert("Please enter a student name");
+      return;
+    }
+
+    fetch(`${scriptURL}?token=${TOKEN}&name=${encodeURIComponent(name)}`)
+      .then(res => res.json())
+      .then(data => {
+        const resultDiv = document.getElementById("studentResult");
+        if (data.success) {
+          resultDiv.innerHTML = `
+            <h3>✅ Student Found</h3>
+            <p><b>Name:</b> ${data.student.name}</p>
+            <p><b>Phone:</b> ${data.student.phone}</p>
+            <p><b>Email:</b> ${data.student.email}</p>
+            <p><b>Course:</b> ${data.student.course}</p>
+          `;
+        } else {
+          resultDiv.innerHTML = `<p style="color:red;">❌ ${data.message}</p>`;
+        }
+      })
+      .catch(() => {
+        document.getElementById("studentResult").innerHTML = 
+          "<p style='color:red;'>❌ Error fetching data.</p>";
+      });
+  }
 </script>
 
 
 
 </body>
 </html>
-
 
 
 
